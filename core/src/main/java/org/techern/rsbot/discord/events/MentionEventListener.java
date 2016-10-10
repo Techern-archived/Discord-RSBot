@@ -24,7 +24,17 @@ public class MentionEventListener implements IListener<MentionEvent> {
      */
     @Override
     public void handle(MentionEvent event) {
-        if (event.getMessage().getContent().toLowerCase().contains("go reset yourself!")) {
+
+        String messageText = event.getMessage().getContent();
+
+        if (messageText.startsWith("<@")) {
+            messageText = messageText.replace("<@" + event.getClient().getOurUser().getID() + "> ", "");
+
+        }
+
+        RSBot.LOGGER.info(messageText);
+
+        if (messageText.toLowerCase().contains("go reset yourself")) {
             try {
                 event.getMessage().getChannel().sendMessage("Resetting myself... :(");
             } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
@@ -34,7 +44,7 @@ public class MentionEventListener implements IListener<MentionEvent> {
         } else {
 
             try {
-                event.getMessage().getChannel().sendMessage(RSBot.BOT_SESSION.think(event.getMessage().getContent()));
+                event.getMessage().getChannel().sendMessage(RSBot.BOT_SESSION.think(messageText));
             } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
                 RSBot.LOGGER.error("Error while replying to a mention", e);
             } catch (Exception e) {
