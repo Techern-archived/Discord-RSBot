@@ -3,6 +3,8 @@ package org.techern.rsbot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.techern.rsbot.discord.DiscordUtilities;
+import org.techern.rsbot.discord.events.GuildCreateEventListener;
+import org.techern.rsbot.discord.events.MentionEventListener;
 import org.techern.rsbot.io.ConfigurationLoader;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -59,6 +61,9 @@ public class RSBot {
         try {
 
             clientInstance = DiscordUtilities.getClient(TOKEN, false);
+
+            clientInstance.getDispatcher().registerListener(new GuildCreateEventListener());
+            clientInstance.getDispatcher().registerListener(new MentionEventListener());
 
             clientInstance.login(true);
 
