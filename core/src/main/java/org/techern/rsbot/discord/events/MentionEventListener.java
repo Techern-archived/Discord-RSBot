@@ -7,6 +7,8 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
+import java.util.Locale;
+
 /**
  * An implementation of the {@link MentionEvent}
  *
@@ -22,10 +24,22 @@ public class MentionEventListener implements IListener<MentionEvent> {
      */
     @Override
     public void handle(MentionEvent event) {
-        try {
-            event.getMessage().getChannel().sendMessage("WHAT DO YOU WANT? I'M NOT READY FOR THIS YET!");
-        } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
-            RSBot.LOGGER.error("Error while replying to a mention", e);
+        if (event.getMessage().getContent().toLowerCase().contains("go reset yourself!")) {
+            try {
+                event.getMessage().getChannel().sendMessage("Resetting myself... :(");
+            } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
+                RSBot.LOGGER.error("Error while resetting chat bot", e);
+            }
+            RSBot.BOT_SESSION = RSBot.BOT.createSession(Locale.getDefault());
+        } else {
+
+            try {
+                event.getMessage().getChannel().sendMessage(RSBot.BOT_SESSION.think(event.getMessage().getContent()));
+            } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
+                RSBot.LOGGER.error("Error while replying to a mention", e);
+            } catch (Exception e) {
+                RSBot.LOGGER.error("Error while thinking", e);
+            }
         }
     }
 }

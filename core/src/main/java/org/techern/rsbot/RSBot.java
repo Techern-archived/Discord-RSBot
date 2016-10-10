@@ -1,5 +1,9 @@
 package org.techern.rsbot;
 
+import com.google.code.chatterbotapi.ChatterBot;
+import com.google.code.chatterbotapi.ChatterBotFactory;
+import com.google.code.chatterbotapi.ChatterBotSession;
+import com.google.code.chatterbotapi.ChatterBotType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.techern.rsbot.discord.DiscordUtilities;
@@ -12,6 +16,8 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
+
+import java.util.Locale;
 
 /**
  * RSBot; The entry class
@@ -42,6 +48,21 @@ public class RSBot {
     public static IDiscordClient clientInstance = null;
 
     /**
+     * The {@link ChatterBot} instance
+     *
+     * @since 0.0.1
+     */
+    public static ChatterBot BOT = null;
+
+    /**
+     * The {@link ChatterBotSession}
+     *
+     * @since 0.0.2
+     * TODO Remove me
+     */
+    public static ChatterBotSession BOT_SESSION = null;
+
+    /**
      * The entry point
      * @param arguments Any command-line arguments passed on
      *
@@ -52,6 +73,16 @@ public class RSBot {
         LOGGER = LoggerFactory.getLogger("RSBot");
 
         LOGGER.info("Starting RSBot version 0.0.1 (SNAPSHOT)"); //TODO Move
+
+        ChatterBotFactory factory = new ChatterBotFactory();
+
+        try {
+            BOT = factory.create(ChatterBotType.CLEVERBOT);
+            BOT_SESSION = BOT.createSession(Locale.getDefault());
+        } catch (Exception e) {
+            LOGGER.error("Could not create cleverbot instance", e);
+            System.exit(1);
+        }
 
         if (!ConfigurationLoader.loadTokenFromFile() || TOKEN.equals("UNDEFINED")) {
             LOGGER.error("Undefined token! Please edit configuration/TOKEN");
