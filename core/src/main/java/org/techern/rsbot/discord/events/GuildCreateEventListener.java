@@ -23,12 +23,12 @@ public class GuildCreateEventListener implements IListener<GuildCreateEvent> {
      */
     @Override
     public void handle(GuildCreateEvent event) {
-        for (IChannel channel : event.getGuild().getChannels()) {
+        /*for (IChannel channel : event.getGuild().getChannels()) {
             try {
                 channel.sendMessage("Hi! I've just been turned on");
             } catch (MissingPermissionsException | RateLimitException | DiscordException e) {
                 RSBot.LOGGER.error("Error while handling guild creation: ", e);
             }
-        }
+        }*/
     }
 }
