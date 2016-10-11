@@ -7,8 +7,6 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
-import java.util.Locale;
-
 /**
  * An implementation of the {@link MentionEvent}
  *
@@ -36,16 +34,23 @@ public class MentionEventListener implements IListener<MentionEvent> {
 
         if (messageText.toLowerCase().contains("go reset yourself")) {
             try {
-                event.getMessage().getChannel().sendMessage("Resetting myself... :(");
+                event.getMessage().getAuthor().getOrCreatePMChannel().sendMessage("I reset myself just for you! Also, made you look :p");
             } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
                 RSBot.LOGGER.error("Error while resetting chat bot", e);
             }
-            RSBot.BOT_SESSION = RSBot.BOT.createSession(Locale.getDefault());
+            RSBot.BOT_SESSIONS.remove(event.getMessage().getAuthor());
         } else {
 
             try {
-                event.getMessage().getChannel().sendMessage(RSBot.BOT_SESSION.think(messageText));
+                event.getMessage().getChannel().sendMessage(RSBot.getChatBotSession(event.getMessage()).think(messageText));
             } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
+                if (e.getMessage().contains("is due to")) {
+                    try {
+                        event.getMessage().getAuthor().getOrCreatePMChannel().sendMessage("Couldn't send that, I was blocked by CloudFlare on Discord. Please try again if you want");
+                    } catch (MissingPermissionsException | DiscordException | RateLimitException e1) {
+                        RSBot.LOGGER.error("Error while PMing about CloudFlare", e);
+                    }
+                }
                 RSBot.LOGGER.error("Error while replying to a mention", e);
             } catch (Exception e) {
                 RSBot.LOGGER.error("Error while thinking", e);

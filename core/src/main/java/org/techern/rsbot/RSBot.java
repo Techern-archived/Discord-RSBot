@@ -13,11 +13,15 @@ import org.techern.rsbot.io.ConfigurationLoader;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * RSBot; The entry class
@@ -55,12 +59,26 @@ public class RSBot {
     public static ChatterBot BOT = null;
 
     /**
-     * The {@link ChatterBotSession}
+     * The {@link ConcurrentHashMap} of {@link ChatterBotSession}s
      *
-     * @since 0.0.2
-     * TODO Remove me
+     * @since 0.0.1
      */
-    public static ChatterBotSession BOT_SESSION = null;
+    public static Map<IUser, ChatterBotSession> BOT_SESSIONS = new ConcurrentHashMap<>(15);
+
+    /**
+     * Gets a {@link ChatterBotSession} for a given {@link IMessage} from an {@link IUser}
+     *
+     * @param messageFromAuthor The {@link IMessage} being scoured for the {@link IUser}
+     * @return A {@link ChatterBotSession}
+     */
+    public static ChatterBotSession getChatBotSession(IMessage messageFromAuthor) {
+        if (!BOT_SESSIONS.containsKey(messageFromAuthor.getAuthor())) {
+            BOT_SESSIONS.put(messageFromAuthor.getAuthor(), BOT.createSession(Locale.getDefault()));
+            LOGGER.info("Created chat bot session for author " + messageFromAuthor.getAuthor().getName());
+        }
+
+        return BOT_SESSIONS.get(messageFromAuthor.getAuthor());
+    }
 
     /**
      * The entry point
@@ -78,7 +96,6 @@ public class RSBot {
 
         try {
             BOT = factory.create(ChatterBotType.CLEVERBOT);
-            BOT_SESSION = BOT.createSession(Locale.getDefault());
         } catch (Exception e) {
             LOGGER.error("Could not create cleverbot instance", e);
             System.exit(1);
