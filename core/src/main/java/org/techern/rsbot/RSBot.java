@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.techern.rsbot.discord.DiscordUtilities;
 import org.techern.rsbot.discord.events.GuildCreateEventListener;
 import org.techern.rsbot.discord.events.MentionEventListener;
+import org.techern.rsbot.discord.events.PresenceUpdateEventListener;
 import org.techern.rsbot.io.ConfigurationLoader;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -112,6 +113,7 @@ public class RSBot {
 
             clientInstance.getDispatcher().registerListener(new GuildCreateEventListener());
             clientInstance.getDispatcher().registerListener(new MentionEventListener());
+            clientInstance.getDispatcher().registerListener(new PresenceUpdateEventListener());
 
             clientInstance.login(true);
 
