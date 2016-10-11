@@ -7,18 +7,13 @@ import com.google.code.chatterbotapi.ChatterBotType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.techern.rsbot.discord.DiscordUtilities;
-import org.techern.rsbot.discord.events.GuildCreateEventListener;
 import org.techern.rsbot.discord.events.MentionEventListener;
 import org.techern.rsbot.discord.events.PresenceUpdateEventListener;
 import org.techern.rsbot.io.ConfigurationLoader;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.MissingPermissionsException;
-import sx.blah.discord.util.RateLimitException;
 
 import java.util.Locale;
 import java.util.Map;
@@ -111,7 +106,6 @@ public class RSBot {
 
             clientInstance = DiscordUtilities.getClient(TOKEN, false);
 
-            clientInstance.getDispatcher().registerListener(new GuildCreateEventListener());
             clientInstance.getDispatcher().registerListener(new MentionEventListener());
             clientInstance.getDispatcher().registerListener(new PresenceUpdateEventListener());
 
