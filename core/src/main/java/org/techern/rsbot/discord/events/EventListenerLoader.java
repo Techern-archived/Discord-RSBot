@@ -7,11 +7,9 @@ import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 import org.techern.rsbot.RSBot;
 import org.tritonus.share.ArraySet;
-import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.api.events.IListener;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import static org.techern.rsbot.RSBot.CLIENT_INSTANCE;

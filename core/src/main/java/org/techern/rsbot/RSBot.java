@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.techern.rsbot.discord.DiscordUtilities;
 import org.techern.rsbot.discord.events.EventListenerLoader;
-import org.techern.rsbot.discord.events.MentionEventListener;
-import org.techern.rsbot.discord.events.PresenceUpdateEventListener;
 import org.techern.rsbot.io.ConfigurationLoader;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IMessage;
@@ -87,7 +85,7 @@ public class RSBot {
 
         LOGGER = LoggerFactory.getLogger("RSBot");
 
-        LOGGER.info("Starting RSBot version 0.0.1 (SNAPSHOT) with debug"); //TODO Move
+        LOGGER.info("Starting RSBot version 0.0.1 (SNAPSHOT)"); //TODO Move
 
         ChatterBotFactory factory = new ChatterBotFactory();
 
