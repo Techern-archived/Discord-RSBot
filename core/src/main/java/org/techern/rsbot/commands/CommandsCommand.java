@@ -75,12 +75,16 @@ public class CommandsCommand implements ICommand {
         } else {
 
             for (String commandQueried : arguments) {
-                if (CommandManager.COMMAND_LIST.containsKey(commandQueried.toLowerCase())) {
-                    responseBuilder.append("**!").append(commandQueried.toLowerCase()).append("**").append(" usage: ")
-                            .append(CommandManager.COMMAND_LIST.get(commandQueried.toLowerCase()).getUsageDetails())
-                            .append("\n");
-                } else {
-                    responseBuilder.append("**!").append(commandQueried.toLowerCase()).append("**").append(" does not exist!").append("\n");
+                try {
+                    if (CommandManager.COMMAND_LIST.containsKey(commandQueried.toLowerCase())) {
+                        responseBuilder.append("**!").append(commandQueried.toLowerCase()).append("**").append(" usage: ")
+                                .append(CommandManager.COMMAND_LIST.get(commandQueried.toLowerCase()).getUsageDetails())
+                                .append("\n");
+                    } else {
+                        responseBuilder.append("**!").append(commandQueried.toLowerCase()).append("**").append(" does not exist!").append("\n");
+                    }
+                } catch (Exception e) {
+                    responseBuilder.append("**").append(e.getMessage()).append("while loading data for ").append(commandQueried.toLowerCase()).append(", spam?");
                 }
             }
         }
