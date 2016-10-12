@@ -34,11 +34,6 @@ public class MentionEventListener implements IListener<MentionEvent> {
         RSBot.LOGGER.info(messageText);
 
         if (messageText.toLowerCase().contains("go reset yourself")) {
-            try {
-                event.getMessage().getAuthor().getOrCreatePMChannel().sendMessage("I reset myself just for you! Also, made you look :p");
-            } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
-                RSBot.LOGGER.error("Error while resetting chat bot", e);
-            }
             RSBot.BOT_SESSIONS.remove(event.getMessage().getAuthor());
         } else if (messageText.toLowerCase().contains("fucking shut up")) {
             try {
