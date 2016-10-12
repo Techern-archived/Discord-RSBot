@@ -7,6 +7,7 @@ import com.google.code.chatterbotapi.ChatterBotType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.techern.rsbot.discord.DiscordUtilities;
+import org.techern.rsbot.discord.events.EventListenerLoader;
 import org.techern.rsbot.discord.events.MentionEventListener;
 import org.techern.rsbot.discord.events.PresenceUpdateEventListener;
 import org.techern.rsbot.io.ConfigurationLoader;
@@ -45,7 +46,7 @@ public class RSBot {
      *
      * @since 0.0.1
      */
-    public static IDiscordClient clientInstance = null;
+    public static IDiscordClient CLIENT_INSTANCE = null;
 
     /**
      * The {@link ChatterBot} instance
@@ -86,7 +87,7 @@ public class RSBot {
 
         LOGGER = LoggerFactory.getLogger("RSBot");
 
-        LOGGER.info("Starting RSBot version 0.0.1 (SNAPSHOT)"); //TODO Move
+        LOGGER.info("Starting RSBot version 0.0.1 (SNAPSHOT) with debug"); //TODO Move
 
         ChatterBotFactory factory = new ChatterBotFactory();
 
@@ -104,12 +105,11 @@ public class RSBot {
 
         try {
 
-            clientInstance = DiscordUtilities.getClient(TOKEN, false);
+            CLIENT_INSTANCE = DiscordUtilities.getClient(TOKEN, false);
 
-            clientInstance.getDispatcher().registerListener(new MentionEventListener());
-            clientInstance.getDispatcher().registerListener(new PresenceUpdateEventListener());
+            EventListenerLoader.loadEventListeners();
 
-            clientInstance.login(true);
+            CLIENT_INSTANCE.login(true);
 
             LOGGER.info("Startup complete!");
 
