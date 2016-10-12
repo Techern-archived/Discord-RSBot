@@ -8,6 +8,8 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
+import java.util.ArrayList;
+
 /**
  * An implementation of the {@link MentionEvent}
  *
@@ -36,18 +38,25 @@ public class MentionEventListener implements IListener<MentionEvent> {
         if (messageText.toLowerCase().contains("go reset yourself")) {
             RSBot.BOT_SESSIONS.remove(event.getMessage().getAuthor());
         } else if (messageText.toLowerCase().contains("fucking shut up")) {
-            try {
-                for (IMessage messages : event.getMessage().getChannel().getMessages()) {
-                    if (messages.getAuthor().equals(event.getClient().getOurUser())) {
-                        messages.delete();
-                    }
+            ArrayList<IMessage> messageList = new ArrayList<>();
+            messageList.add(event.getMessage()); //Gotta get rid of fucking shut up :p
+            for (IMessage message : event.getMessage().getChannel().getMessages()) {
+                if (message.getAuthor().equals(event.getClient().getOurUser()) || message.getMentions().contains(RSBot.CLIENT_INSTANCE.getOurUser())) {
+                    messageList.add(message);
                 }
+            }
+
+            try {
+                event.getMessage().getChannel().getMessages().bulkDelete(messageList);
             } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
                 RSBot.LOGGER.error("Error while pruning chat bot", e);
             }
+
+
         } else {
             try {
-                event.getMessage().getChannel().sendMessage(RSBot.getChatBotSession(event.getMessage()).think(messageText));
+                IMessage chatBotMessage = event.getMessage().getChannel().sendMessage("I'm thinking...");
+                chatBotMessage.edit(RSBot.getChatBotSession(event.getMessage()).think(messageText));
             } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
                 if (e.getMessage().contains("is due to")) {
                     try {
