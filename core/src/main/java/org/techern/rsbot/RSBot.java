@@ -6,6 +6,7 @@ import com.google.code.chatterbotapi.ChatterBotSession;
 import com.google.code.chatterbotapi.ChatterBotType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.techern.rsbot.commands.CommandManager;
 import org.techern.rsbot.discord.DiscordUtilities;
 import org.techern.rsbot.discord.events.EventListenerLoader;
 import org.techern.rsbot.io.ConfigurationLoader;
@@ -106,6 +107,8 @@ public class RSBot {
             CLIENT_INSTANCE = DiscordUtilities.getClient(TOKEN, false);
 
             EventListenerLoader.loadEventListeners();
+
+            CommandManager.loadCommands();
 
             CLIENT_INSTANCE.login(true);
 
