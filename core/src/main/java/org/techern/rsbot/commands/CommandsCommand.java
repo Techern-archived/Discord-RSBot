@@ -59,8 +59,34 @@ public class CommandsCommand implements ICommand {
      */
     @Override
     public boolean execute(IChannel channel, IUser callingUser, List<String> arguments) {
+
+        StringBuilder responseBuilder = new StringBuilder(50);
+
+        if (arguments.size() == 0) {
+
+            responseBuilder.append("Help for commands: \n\n");
+
+            for (ICommand commands : CommandManager.COMMAND_LIST.values()) {
+                responseBuilder.append("**!").append(commands.getName().toLowerCase()).append("** - ")
+                        .append(commands.getDescription())
+                        .append("\n");
+            }
+
+        } else {
+
+            for (String commandQueried : arguments) {
+                if (CommandManager.COMMAND_LIST.containsKey(commandQueried.toLowerCase())) {
+                    responseBuilder.append("**!").append(commandQueried.toLowerCase()).append("**").append(" usage: ")
+                            .append(CommandManager.COMMAND_LIST.get(commandQueried.toLowerCase()).getUsageDetails())
+                            .append("\n");
+                } else {
+                    responseBuilder.append("**!").append(commandQueried.toLowerCase()).append("**").append(" does not exist!").append("\n");
+                }
+            }
+        }
+
         try {
-            channel.sendMessage("Really?");
+            channel.sendMessage(responseBuilder.toString());
             return true;
         } catch (MissingPermissionsException | RateLimitException | DiscordException e) {
             RSBot.LOGGER.error("Error while processing commands command", e);
