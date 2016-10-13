@@ -129,7 +129,7 @@ public class Anagram {
      * @since 0.0.1
      */
     public static void loadAnagrams() {
-        ANAGRAMS.put("Cruz", new Anagram("Cruz", "Chat Bot", "Behind his laptop", "Coffee (unless sick, then more coffee)"));
+        addAnagram(new Anagram("Cruz", "Chat Bot", "Behind his laptop", "Coffee (unless sick, then more coffee)"));
     }
 
     /**
@@ -141,6 +141,16 @@ public class Anagram {
      */
     public static boolean doesAnagramExist(String jumbledText) {
         return ANAGRAMS.containsKey(jumbledText.toLowerCase());
+    }
+
+    /**
+     * Adds an {@link Anagram}
+     *
+     * @param anagram The {@link Anagram} to add
+     * @since 0.0.1
+     */
+    private static void addAnagram(Anagram anagram) {
+        ANAGRAMS.put(anagram.getJumbledText().toLowerCase(), anagram);
     }
 
     /**
