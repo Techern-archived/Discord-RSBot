@@ -2,6 +2,7 @@ package org.techern.rsbot.commands;
 
 import org.techern.rsbot.RSBot;
 import org.techern.rsbot.discord.events.EventListenerLoader;
+import org.techern.rsbot.util.Anagram;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
@@ -132,6 +133,7 @@ public class StatisticsCommand implements ICommand {
 
         responseBuilder.append("\n \n");
 
+        responseBuilder.append("**Anagrams loaded:** ").append(Anagram.ANAGRAMS.size()).append("\n");
         responseBuilder.append("**Commands loaded:** ").append(CommandManager.COMMAND_LIST.size()).append("\n");
         responseBuilder.append("**Listeners loaded:** ").append(EventListenerLoader.LISTENER_LIST.size());
 
