@@ -55,6 +55,7 @@ public class MentionEventListener implements IListener<MentionEvent> {
 
         } else {
             try {
+                RSBot.CHAT_BOT_REQUESTS.incrementAndGet();
                 IMessage chatBotMessage = event.getMessage().getChannel().sendMessage("I'm thinking...");
                 chatBotMessage.edit(RSBot.getChatBotSession(event.getMessage()).think(messageText));
             } catch (MissingPermissionsException | DiscordException | RateLimitException e) {
