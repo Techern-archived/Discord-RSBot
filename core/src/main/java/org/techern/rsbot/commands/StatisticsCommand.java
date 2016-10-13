@@ -10,7 +10,6 @@ import sx.blah.discord.util.RateLimitException;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -50,7 +49,7 @@ public class StatisticsCommand implements ICommand {
      */
     @Override
     public String getUsageDetails() {
-        return "\"!statistics\"";
+        return "\"!stats\" (What were you expecting? :P)";
     }
 
     /**
