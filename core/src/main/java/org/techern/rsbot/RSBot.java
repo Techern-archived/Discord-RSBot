@@ -15,9 +15,11 @@ import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 
+import java.time.Instant;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * RSBot; The entry class
@@ -55,11 +57,32 @@ public class RSBot {
     public static ChatterBot BOT = null;
 
     /**
+     * An {@link AtomicLong} showing how many chat bot requests have been made
+     *
+     * @since 0.0.1
+     */
+    public static AtomicLong CHAT_BOT_REQUESTS = new AtomicLong(0);
+
+    /**
+     * An {@link AtomicLong} showing how many command requests have been made
+     *
+     * @since 0.0.1
+     */
+    public static AtomicLong COMMAND_REQUESTS = new AtomicLong(0);
+
+    /**
      * The {@link ConcurrentHashMap} of {@link ChatterBotSession}s
      *
      * @since 0.0.1
      */
     public static Map<IUser, ChatterBotSession> BOT_SESSIONS = new ConcurrentHashMap<>(15);
+
+    /**
+     * The {@link Instant} that the {@link RSBot} was started
+     *
+     * @since 0.0.1
+     */
+    public static Instant STARTUP_INSTANT = null;
 
     /**
      * Gets a {@link ChatterBotSession} for a given {@link IMessage} from an {@link IUser}
@@ -84,6 +107,8 @@ public class RSBot {
      */
     public static void main(String... arguments) throws InterruptedException {
 
+        STARTUP_INSTANT = Instant.now();
+
         LOGGER = LoggerFactory.getLogger("RSBot");
 
         LOGGER.info("Starting RSBot version 0.0.1 (SNAPSHOT)"); //TODO Move
@@ -93,7 +118,7 @@ public class RSBot {
         try {
             BOT = factory.create(ChatterBotType.CLEVERBOT);
         } catch (Exception e) {
-            LOGGER.error("Could not create cleverbot instance", e);
+            LOGGER.error("Could not create Cleverbot instance", e);
             System.exit(1);
         }
 

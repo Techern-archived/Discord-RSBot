@@ -33,6 +33,9 @@ public class MessageReceivedEventListener implements IListener<MessageReceivedEv
         String messageText = event.getMessage().getContent();
 
         if (messageText.startsWith("!") && messageText.length() > 1) {
+
+            RSBot.COMMAND_REQUESTS.incrementAndGet();
+
             messageText = messageText.replaceFirst("!", ""); //First get rid of this :p
 
 
