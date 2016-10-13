@@ -79,7 +79,7 @@ public class AnagramCommand implements ICommand {
                 channel.sendMessage(Anagram.getAnagram(jumbledText).toString());
                 return true;
             } else {
-                channel.sendMessage("Anagram " + jumbledText + " does not exist or is not added. Is it new?");
+                channel.sendMessage("Anagram \"" + jumbledText + "\" does not exist or is not added. Is it new?");
                 return true;
             }
 
