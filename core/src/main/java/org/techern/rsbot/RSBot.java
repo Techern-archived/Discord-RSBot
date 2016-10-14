@@ -10,6 +10,7 @@ import org.techern.rsbot.commands.CommandManager;
 import org.techern.rsbot.discord.DiscordUtilities;
 import org.techern.rsbot.discord.events.EventListenerLoader;
 import org.techern.rsbot.io.ConfigurationLoader;
+import org.techern.rsbot.util.Anagram;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
@@ -132,6 +133,8 @@ public class RSBot {
             CLIENT_INSTANCE = DiscordUtilities.getClient(TOKEN, false);
 
             EventListenerLoader.loadEventListeners();
+
+            Anagram.loadAnagrams();
 
             CommandManager.loadCommands();
 
