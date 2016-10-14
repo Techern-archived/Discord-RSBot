@@ -1,6 +1,7 @@
 package org.techern.rsbot.util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An anagram used in RuneScape's Clue Scrolls
@@ -144,6 +145,21 @@ public class Anagram {
     }
 
     /**
+     * Checks to see if a text entry is a partial match to an {@link Anagram}
+     *
+     * @param jumbledText The text entry
+     * @return {@code true} if a partial match is found, otherwise {@code false}
+     * @since 0.0.1
+     */
+    public static boolean doesPartialAnagramExist(String jumbledText) {
+        for (String key : ANAGRAMS.keySet()) {
+            if (key.startsWith(jumbledText.toLowerCase())) return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Adds an {@link Anagram}
      *
      * @param anagram The {@link Anagram} to add
@@ -162,6 +178,24 @@ public class Anagram {
      */
     public static Anagram getAnagram(String jumbledText) {
         return ANAGRAMS.get(jumbledText.toLowerCase());
+    }
+
+    /**
+     * Gets a partial {@link Anagram} match
+     *
+     * @param jumbledText The text we're looking for
+     * @return An {@link Anagram}
+     *
+     * @since 0.0.1
+     */
+    public static Anagram getPartialAnagram(String jumbledText) {
+        for (Map.Entry<String, Anagram> entry : ANAGRAMS.entrySet()) {
+            if (entry.getKey().startsWith(jumbledText.toLowerCase())) {
+                return entry.getValue();
+            }
+        }
+
+        return new Anagram("FILA", "FAIL", "Does not exist", "Your keyboard");
     }
 
 }

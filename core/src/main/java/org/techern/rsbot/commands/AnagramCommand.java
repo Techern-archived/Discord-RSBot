@@ -78,6 +78,9 @@ public class AnagramCommand implements ICommand {
             if (Anagram.doesAnagramExist(jumbledText)) {
                 channel.sendMessage(Anagram.getAnagram(jumbledText).toString());
                 return true;
+            } else if (Anagram.doesPartialAnagramExist(jumbledText)) {
+                channel.sendMessage(Anagram.getPartialAnagram(jumbledText).toString());
+                return true;
             } else {
                 channel.sendMessage("Anagram \"" + jumbledText + "\" does not exist or is not added. Is it new?");
                 return true;
