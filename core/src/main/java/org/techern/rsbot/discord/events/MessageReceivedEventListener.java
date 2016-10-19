@@ -42,7 +42,7 @@ public class MessageReceivedEventListener implements IListener<MessageReceivedEv
             //Now get the components
             ArrayList<String> components = new ArrayList<>(Arrays.asList(messageText.split("\\s+")));
 
-            String commandName = components.remove(0); //No, this is not a bug. It returns what we removed
+            String commandName = components.remove(0).toLowerCase(); //No, this is not a bug. It returns what we removed
 
             if (CommandManager.COMMAND_LIST.containsKey(commandName)) {
                 try {
