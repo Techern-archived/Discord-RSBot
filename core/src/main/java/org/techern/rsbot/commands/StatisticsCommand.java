@@ -135,7 +135,11 @@ public class StatisticsCommand implements ICommand {
 
         responseBuilder.append("**Anagrams loaded:** ").append(Anagram.ANAGRAMS.size()).append("\n");
         responseBuilder.append("**Commands loaded:** ").append(CommandManager.COMMAND_LIST.size()).append("\n");
-        responseBuilder.append("**Listeners loaded:** ").append(EventListenerLoader.LISTENER_LIST.size());
+        responseBuilder.append("**Listeners loaded:** ").append(EventListenerLoader.LISTENER_LIST.size()).append("\n\n");
+
+        responseBuilder.append("**Processor cores:** ").append(Runtime.getRuntime().availableProcessors()).append("\n");
+        responseBuilder.append("**RAM:** ").append(Runtime.getRuntime().freeMemory() / 1024 / 1024).append("MB free out of ")
+                                           .append(Runtime.getRuntime().totalMemory() / 1024 / 1024).append("MB allocated to the bot itself");
 
         try {
             channel.sendMessage(responseBuilder.toString());
