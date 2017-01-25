@@ -28,12 +28,11 @@ public class MentionEventListener implements IListener<MentionEvent> {
 
         String messageText = event.getMessage().getContent();
 
-        if (messageText.startsWith("<@")) {
-            messageText = messageText.replace("<@" + event.getClient().getOurUser().getID() + "> ", "");
-
+        messageText = messageText.replaceAll("<@![0-9 ]*>", "");
+        messageText = messageText.replaceAll("  ", " ");
+        if (messageText.startsWith(" ")) {
+            messageText = messageText.replaceFirst(" ", "");
         }
-
-        RSBot.LOGGER.info(messageText);
 
         if (messageText.toLowerCase().contains("go reset yourself")) {
             RSBot.BOT_SESSIONS.remove(event.getMessage().getAuthor());
